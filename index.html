@@ -209,16 +209,32 @@
   .next-step ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
   .next-step li{ line-height:1.55; }
   .next-step a{ color:var(--primary); font-weight:600; }
+
+  .kakao-warning{
+    display:none; gap:10px; align-items:flex-start;
+    background:var(--err-soft); color:var(--err); border-radius:12px;
+    padding:14px 14px; margin-bottom:20px; font-size:13px; line-height:1.6;
+  }
+  .kakao-warning .icon{ font-size:17px; flex:none; line-height:1.4; }
+  .kakao-warning strong{ display:block; margin-bottom:3px; font-size:13.5px; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
+  <div class="kakao-warning" id="kakao-warning" role="alert">
+    <span class="icon">⚠️</span>
+    <div>
+      <strong>카카오톡 브라우저에서는 PDF 저장이 되지 않아요.</strong>
+      화면의 <strong>'···'</strong>(더보기) 메뉴를 눌러 <strong>'다른 브라우저로 열기'</strong>를 선택한 뒤 진행해주세요.
+    </div>
+  </div>
+
   <div class="hero">
     <span class="eyebrow">칵티스터 구매 안내</span>
     <h1>CITES 양도·양수 전자계약서</h1>
     <p class="lede">
-      광프리카에서 입양하신 개체는 「야생생물 보호 및 관리에 관한 법률」에 따라 양도·양수 신고가 필수인
+      광프리카에서 입양하신 칵티스터의 모든 작품들은 「야생생물 보호 및 관리에 관한 법률」에 따라 양도·양수 신고가 필수인
       국제적 멸종위기종(CITES)입니다. 아래 정보를 입력해 전자계약서를 만들어주세요. 완성된 계약서는
       야생동물종합관리시스템(WIMS)에서 양수 신고하실 때 첨부서류로 그대로 사용하시면 됩니다.
     </p>
@@ -805,6 +821,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 (function(){
   var form = document.getElementById('contract-form');
   var formErr = document.getElementById('form-err');
+
+  // ---- 카카오톡 인앱 브라우저 안내 ----
+  if(/KAKAOTALK/i.test(navigator.userAgent || '')){
+    var kakaoWarning = document.getElementById('kakao-warning');
+    if(kakaoWarning) kakaoWarning.style.display = 'flex';
+  }
 
   function setInvalid(wrapId, invalid){
     var el = document.getElementById(wrapId);
